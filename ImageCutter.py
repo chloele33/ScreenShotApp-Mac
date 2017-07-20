@@ -424,6 +424,8 @@ class CutImage(QWidget):
             yDiff = float(self.initialStartY) - float(cury)
             if (self.selectRect.x() - xDiff) < 0 or (self.selectRect.y() - yDiff) < 0:
                 return
+            if (self.selectRect.y() + self.selectRect.height() - yDiff) > self.height():
+                return
             self.selectRect.moveTo(QPoint(self.selectRect.x() - xDiff, self.selectRect.y() - yDiff))
             self.initialStartX = event.globalPos().x()
             self.initialStartY = event.globalPos().y()
