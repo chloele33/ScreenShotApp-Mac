@@ -3,10 +3,11 @@ import sys,time,os, datetime
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.Qt import *
+from AppKit import NSScreen
 from menu import Menu
 from rectLabel import RectLabel
 from Background import Background
-from PIL import ImageGrab
+from PIL import ImageGrab, Image
 
 
 class CutImage(QWidget):
@@ -20,9 +21,8 @@ class CutImage(QWidget):
         #set initial screen shot
         self.cutok=False
         self.fullPixmap=ImageGrab.grab()
+        self.fullPixmap = self.fullPixmap.resize((int(NSScreen.mainScreen().frame().size.width), int(NSScreen.mainScreen().frame().size.height)), Image.ANTIALIAS)
         self.fullPixmap = self.fullPixmap.toqpixmap()
-#         print(self.fullPixmap.width())
-#         print(self.width())
         self.setMouseTracking(True)
         # Create rectLabel
         self.rectLabel=QLabel(self)
@@ -202,21 +202,21 @@ class CutImage(QWidget):
             #calculate arrow head direction and draw arrow head
             painter.drawLine(currLine)
     def saveBtnFunc(self):
-        #self.menu.hide()
-        rectPixmap=self.opaqueRectLabel.label.pixmap()
         try: 
             with open('pathLog.txt','r') as txtFile:
                 curPath = txtFile.readline()
         except:
             with open('pathLog.txt','w+') as txtFile:
                 curPath = txtFile.readline()
-        name = QFileDialog.getSaveFileName(self.menu, caption="Please select a path",directory = curPath, filter ="*.png;;*.xpm;;*.jpg",options=QFileDialog.ShowDirsOnly)
+        name = QFileDialog.getSaveFileName(self.menu, caption="Please select a path",directory = curPath, filter ="*.png;;*.xpm;;*.jpg", options=QFileDialog.ShowDirsOnly)
         path = os.path.split(str(name[0]))[0]
+        print(name)
+        print(path)
         if path:
             with open('pathLog.txt','w') as txtFile:
                 txtFile.writelines(path)
+        rectPixmap=self.opaqueRectLabel.label.pixmap()
         rectPixmap.save(name[0],None,100)
-        #self.menu.show()
     def undoBtnFunc(self):
         if not self.allDrawings:
             return
@@ -561,7 +561,6 @@ class CutImage(QWidget):
             if not self.savePath:
                 return
             rectPixmap.save(self.savePath + "/%s.png" % (name),None,100)
-            print(self.savePath + "/%s.png" % (name))
             QApplication.closeAllWindows()
             self.close()
     def keyPressEvent(self,event):
