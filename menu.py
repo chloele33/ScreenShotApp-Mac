@@ -12,7 +12,7 @@ class Menu(MoveWidget):
         self.resize(QSize(300, 35))
         self.setObjectName("Menu")
         self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
-        #self.setCursor(Qt.PointingHandCursor)
+        self.setCursor(Qt.PointingHandCursor)
         self.setWindowOpacity(0.9)
         #widget
         self.innerWidget = QWidget()
@@ -46,9 +46,11 @@ class Menu(MoveWidget):
         #outerLayout.addWidget(self.innerWidget)
         self.setLayout(mainLayout)
         #stylesheet
-        stylesheetFile=QFile("stylesheet.qss")
-        stylesheetFile.open(QFile.ReadOnly)
-        self.setStyleSheet(str(stylesheetFile.readAll()))
+        stylesheetFile="stylesheet.qss"
+        with open(stylesheetFile,"r") as file:
+            self.setStyleSheet(file.read())
+#         stylesheetFile.open(QFile.ReadOnly)
+#         self.setStyleSheet(str(stylesheetFile.readAll()))
         #function
         self.backBtn.clicked.connect(self.backBtnFunc)
     def backBtnFunc(self):

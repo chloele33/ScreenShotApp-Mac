@@ -101,9 +101,9 @@ class CutImage(QWidget):
         self.openMenuBtn.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
         self.openMenuBtn.setAttribute(Qt.WA_TranslucentBackground)
         self.openMenuBtn.setObjectName("openMenuBtn")
-        stylesheetFile=QFile("stylesheet.qss")
-        stylesheetFile.open(QFile.ReadOnly)
-        self.openMenuBtn.setStyleSheet(str(stylesheetFile.readAll()))
+        stylesheetFile="stylesheet.qss"
+        with open(stylesheetFile,"r") as file:
+            self.openMenuBtn.setStyleSheet(file.read())
         self.openMenuBtn.clicked.connect(self.openMenuFunc)
         self.menu = Menu()
         self.menu.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
