@@ -79,14 +79,14 @@ class CutImage(QWidget):
         self.savePath = ""
         # Create helpWidget
         helpText=u'''
-    ��קѡ��
-    ˫������
-    �Ҽ��˳�
+    Drag to select 
+    Right click to undo selection or quit
+    Double left click to save 
         '''
         self.helpWin=QLabel()
         self.helpWin.setText(helpText)
         self.helpWin.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
-        self.helpWin.setFixedSize(QSize(96,87))
+        self.helpWin.setFixedSize(QSize(250,100))
         self.helpWin.setStyleSheet("background:rgb(69,119,170)")
         screen=QDesktopWidget().screenGeometry()
         screenWidth=screen.width()
