@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys,time,os, datetime
-from PyQt5.QtCore import *
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.Qt import *
 from AppKit import NSScreen
@@ -85,9 +85,10 @@ class CutImage(QWidget):
         '''
         self.helpWin=QLabel()
         self.helpWin.setText(helpText)
-        self.helpWin.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+        self.helpWin.setWindowFlags(Qt.FramelessWindowHint)
         self.helpWin.setFixedSize(QSize(250,100))
-        self.helpWin.setStyleSheet("background:rgb(69,119,170)")
+        self.helpWin.setStyleSheet("color: rgb(255, 255, 255);"
+                                   "background-color:rgb(69,119,170);")
         screen=QDesktopWidget().screenGeometry()
         screenWidth=screen.width()
         screenHeight=screen.height()
@@ -280,6 +281,8 @@ class CutImage(QWidget):
                 self.drawArrowHead = False
                 self.underlineOK = False
                 self.underlineEnd = False
+                self.drawOK = False
+                self.drawingEnd = False
                 self.allLines = []
                 self.allArrows = []
                 self.allDrawings = []
