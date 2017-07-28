@@ -3,6 +3,7 @@ import sys,time,os, datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.Qt import *
+from PyQt5.Qt import QApplication
 from AppKit import NSScreen
 from menu import Menu
 from rectLabel import RectLabel
@@ -12,7 +13,7 @@ from PIL import ImageGrab, Image
 
 class CutImage(QWidget):
     def __init__(self):
-        super(CutImage,self).__init__()
+        super().__init__()
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setWindowOpacity(0.01)
         #set background
@@ -211,13 +212,11 @@ class CutImage(QWidget):
                 curPath = txtFile.readline()
         name = QFileDialog.getSaveFileName(self.menu, caption="Please select a path",directory = curPath, filter ="*.png;;*.xpm;;*.jpg", options=QFileDialog.ShowDirsOnly)
         path = os.path.split(str(name[0]))[0]
-        print(name)
-        print(path)
         if path:
             with open('pathLog.txt','w') as txtFile:
                 txtFile.writelines(path)
-        rectPixmap=self.opaqueRectLabel.label.pixmap()
-        rectPixmap.save(name[0],None,100)
+                rectPixmap=self.opaqueRectLabel.label.pixmap()
+                rectPixmap.save(name[0],None,100)
     def undoBtnFunc(self):
         if not self.allDrawings:
             return
@@ -521,7 +520,6 @@ class CutImage(QWidget):
                     QApplication.setOverrideCursor(Qt.SizeAllCursor)
                     self.initialShiftWindow = True
     def mouseReleaseEvent(self,event):
-        #self.selectRect = self.selectRect.normalized()
         QApplication.setOverrideCursor(Qt.ArrowCursor)
         if event.button()==Qt.LeftButton and self.selectionExists:
             self.resizeOK = True
